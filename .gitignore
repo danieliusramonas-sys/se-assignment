@@ -1,0 +1,23 @@
+# Environment / secrets
+.env
+.env.*
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+
+# Java / Gradle
+.gradle/
+build/
+out/
+
+# Node / frontend
+node_modules/
+dist/
+
+# Logs
+*.log
