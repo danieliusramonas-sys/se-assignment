@@ -40,7 +40,7 @@ AI can accelerate metadata and PL/SQL analysis, but ambiguous or undocumented be
 status: requires-analysis
 ```
 
-and resolved by a software engineer or business domain expert.
+These cases must be resolved by a software engineer or business domain expert.
 
 ## Target Architecture
 
