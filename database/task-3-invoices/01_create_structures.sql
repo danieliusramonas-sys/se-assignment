@@ -16,7 +16,7 @@ EXCEPTION
             RAISE;
         END IF;
 END;
-/
+
 
 BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE invoice CASCADE CONSTRAINTS PURGE';
@@ -26,17 +26,6 @@ EXCEPTION
             RAISE;
         END IF;
 END;
-/
-
-BEGIN
-    EXECUTE IMMEDIATE 'DROP TABLE rates CASCADE CONSTRAINTS PURGE';
-EXCEPTION
-    WHEN OTHERS THEN
-        IF SQLCODE != -942 THEN
-            RAISE;
-        END IF;
-END;
-/
 
 --------------------------------------------------------------------------------
 -- INVOICE
@@ -86,42 +75,6 @@ CREATE TABLE payment (
 
 
 --------------------------------------------------------------------------------
--- CURRENCY_RATE
---
--- ECB reference rate.
---
--- exchange_rate means:
---
---     1 EUR = exchange_rate units of currency
---
--- Examples:
---     EUR = 1
---     USD = 1.17000000
---     GBP = 0.86000000
---     JPY = 185.00000000
---
---------------------------------------------------------------------------------
-
-
-
-
-
-CREATE TABLE rates (
-    currency       VARCHAR2(3)   NOT NULL,
-    rate_date      DATE          NOT NULL,
-    exchange_rate  NUMBER(18, 8) NOT NULL,
-
-    CONSTRAINT pk_rates
-        PRIMARY KEY (currency, rate_date),
-
-    CONSTRAINT chk_rates_currency
-        CHECK (currency IN ('EUR', 'USD', 'SEK', 'GBP', 'JPY')),
-
-    CONSTRAINT chk_rates_positive
-        CHECK (exchange_rate > 0)
-);
-
---------------------------------------------------------------------------------
 -- Indexes
 --------------------------------------------------------------------------------
 
@@ -130,6 +83,3 @@ CREATE INDEX idx_payment_invoice
 
 CREATE INDEX idx_payment_date
     ON payment (payment_date);
-
-CREATE INDEX idx_rates_date
-    ON rates (rate_date);
