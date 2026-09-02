@@ -73,10 +73,9 @@ BEGIN
 
         l_date := l_date + 1;
     END LOOP;
-END;
 COMMIT;
-
-
+END;
+/
 --------------------------------------------------------------------------------
 -- Generate payments
 --
@@ -226,7 +225,7 @@ BEGIN
         END IF;
 
     END LOOP;
-
-END;
-
 COMMIT;
+END;
+/
+

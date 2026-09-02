@@ -27,8 +27,7 @@ BEGIN
             END IF;
     END;
 END;
-
-
+/
 -------------------------------------------------------------------------------
 -- Validation result table
 -------------------------------------------------------------------------------
@@ -62,7 +61,7 @@ CREATE OR REPLACE PACKAGE invoice_validation_pkg AS
     PROCEDURE run_all;
 
 END invoice_validation_pkg;
-
+/
 
 -------------------------------------------------------------------------------
 -- Package body
@@ -720,3 +719,4 @@ CREATE OR REPLACE PACKAGE BODY invoice_validation_pkg AS
     END run_all;
 
 END invoice_validation_pkg;
+/

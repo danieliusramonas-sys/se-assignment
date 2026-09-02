@@ -4,7 +4,7 @@
 BEGIN
     invoice_validation_pkg.run_all;
 END;
-
+/
 
 -------------------------------------------------------------------------------
 -- Detailed validation results

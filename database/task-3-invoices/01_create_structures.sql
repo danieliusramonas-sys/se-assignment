@@ -16,8 +16,7 @@ EXCEPTION
             RAISE;
         END IF;
 END;
-
-
+/
 BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE invoice CASCADE CONSTRAINTS PURGE';
 EXCEPTION
@@ -26,7 +25,7 @@ EXCEPTION
             RAISE;
         END IF;
 END;
-
+/
 --------------------------------------------------------------------------------
 -- INVOICE
 --------------------------------------------------------------------------------

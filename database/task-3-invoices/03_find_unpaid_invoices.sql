@@ -26,3 +26,5 @@ SELECT
     invoice_date
 FROM tt
 ORDER BY invoice_id;
+
+select * from unpaid_invoices_v;

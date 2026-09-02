@@ -166,3 +166,4 @@ BEGIN
         'ALTER TABLE invoice ENABLE NOVALIDATE CONSTRAINT chk_invoice_amount';
 
 END;
+/

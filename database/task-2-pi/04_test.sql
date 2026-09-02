@@ -61,3 +61,7 @@ BEGIN
     END IF;
 END;
 /
+BEGIN
+    test_calculate_pi;
+END;
+/
