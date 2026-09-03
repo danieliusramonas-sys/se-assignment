@@ -13,7 +13,7 @@
 
 | Layer | Type | Task | ID | Test / Scenario | Description | Result |
 |---|---|---|---|---|---|---|
-| Frontend | Component | Task 1 | FE-AGE-01 | Age view load | Verifies the age classification view is rendered correctly. | PASS |
+| Frontend | Component | Task 1 | `FE-AGE-01` | Age view load | Verifies the age classification view is rendered correctly. | PASS |
 | Frontend | Component | Task 1 | FE-AGE-02 | Missing age | Verifies client-side validation for missing age input. | PASS |
 | Frontend | Component | Task 1 | FE-AGE-03 | Valid age request | Verifies the correct REST request is sent to the backend. | PASS |
 | Frontend | Component | Task 1 | FE-AGE-04 | Successful classification | Verifies the classification result is displayed correctly. | PASS |
