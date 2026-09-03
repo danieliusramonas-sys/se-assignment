@@ -1,0 +1,897 @@
+
+SQL*Plus: Release 23.26.2.0.0 - Production on Thu Sep 3 19:22:50 2026
+Version 23.26.2.0.0
+
+Copyright (c) 1982, 2026, Oracle.  All rights reserved.
+
+Last Successful login time: Thu Sep 03 2026 19:21:56 +00:00
+
+Connected to:
+Oracle AI Database 26ai Free Release 23.26.2.0.0 - Develop, Learn, and Run for Free
+Version 23.26.2.0.0
+
+SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> SQL> ========================================
+SQL> Task 1 - Age Classification Tests
+SQL> ========================================
+SQL> SQL> -- 04_test.sql
+SQL> -- Test runner for get_age_result().
+SQL> --
+SQL> -- The procedure processes all input values from AGE_TEST_DATA.
+SQL> -- All test cases are executed even if failures are found.
+SQL> -- Failed results are reported at the end.
+SQL> 
+SQL> CREATE OR REPLACE PROCEDURE test_get_age_result
+  2  IS
+  3  	 l_result	 age_result_t;
+  4  	 l_total_count	 PLS_INTEGER := 0;
+  5  	 l_success_count PLS_INTEGER := 0;
+  6  	 l_failed_count  PLS_INTEGER := 0;
+  7  BEGIN
+  8  	 DBMS_OUTPUT.PUT_LINE('Running get_age_result tests...');
+  9  	 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+ 10  
+ 11  	 FOR r IN (
+ 12  	     SELECT
+ 13  		 test_case_id,
+ 14  		 age
+ 15  	     FROM age_test_data
+ 16  	     ORDER BY test_case_id
+ 17  	 )
+ 18  	 LOOP
+ 19  	     l_total_count := l_total_count + 1;
+ 20  
+ 21  	     l_result := get_age_result(r.age);
+ 22  
+ 23  	     IF l_result.status_code = 'OK' THEN
+ 24  		 l_success_count := l_success_count + 1;
+ 25  	     ELSE
+ 26  		 l_failed_count := l_failed_count + 1;
+ 27  
+ 28  		 DBMS_OUTPUT.PUT_LINE(
+ 29  		     'FAIL'
+ 30  		     || ' | test_case_id=' || r.test_case_id
+ 31  		     || ' | age=' || NVL(TO_CHAR(r.age), 'NULL')
+ 32  		     || ' | error_code='
+ 33  		     || NVL(TO_CHAR(l_result.error_code), 'NULL')
+ 34  		     || ' | message='
+ 35  		     || NVL(l_result.message, 'NULL')
+ 36  		 );
+ 37  	     END IF;
+ 38  	 END LOOP;
+ 39  
+ 40  	 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+ 41  	 DBMS_OUTPUT.PUT_LINE('Tests executed: ' || l_total_count);
+ 42  	 DBMS_OUTPUT.PUT_LINE('Successful:     ' || l_success_count);
+ 43  	 DBMS_OUTPUT.PUT_LINE('Failed:	       ' || l_failed_count);
+ 44  
+ 45  	 IF l_failed_count = 0 THEN
+ 46  	     DBMS_OUTPUT.PUT_LINE('RESULT: OK');
+ 47  	 ELSE
+ 48  	     DBMS_OUTPUT.PUT_LINE('RESULT: FAIL');
+ 49  	 END IF;
+ 50  END;
+ 51  /
+
+Procedure created.
+
+SQL> 
+SQL> BEGIN
+  2  	 test_get_age_result;
+  3  END;
+  4  /
+Running get_age_result tests...
+----------------------------------------
+----------------------------------------
+Tests executed: 100
+Successful:	100
+Failed: 	0
+RESULT: OK
+
+PL/SQL procedure successfully completed.
+
+SQL> SQL> 
+SQL> ========================================
+SQL> Task 2 - PI Tests
+SQL> ========================================
+SQL> SQL> CREATE OR REPLACE PROCEDURE test_calculate_pi
+  2  IS
+  3  	 l_actual_pi	 NUMBER;
+  4  	 l_total_count	 PLS_INTEGER := 0;
+  5  	 l_success_count PLS_INTEGER := 0;
+  6  	 l_failed_count  PLS_INTEGER := 0;
+  7  BEGIN
+  8  	 DBMS_OUTPUT.PUT_LINE('Running calculate_pi tests...');
+  9  	 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+ 10  
+ 11  	 FOR r IN (
+ 12  	     SELECT
+ 13  		 test_case_id,
+ 14  		 precision,
+ 15  		 expected_pi
+ 16  	     FROM pi_test_data
+ 17  	     ORDER BY precision
+ 18  	 )
+ 19  	 LOOP
+ 20  	     l_total_count := l_total_count + 1;
+ 21  
+ 22  	     BEGIN
+ 23  		 l_actual_pi := calculate_pi(r.precision);
+ 24  
+ 25  		 IF l_actual_pi = r.expected_pi THEN
+ 26  		     l_success_count := l_success_count + 1;
+ 27  		 ELSE
+ 28  		     l_failed_count := l_failed_count + 1;
+ 29  
+ 30  		     DBMS_OUTPUT.PUT_LINE(
+ 31  			 'FAIL'
+ 32  			 || ' | test_case_id=' || r.test_case_id
+ 33  			 || ' | precision=' || r.precision
+ 34  			 || ' | expected=' || TO_CHAR(r.expected_pi)
+ 35  			 || ' | actual=' || TO_CHAR(l_actual_pi)
+ 36  		     );
+ 37  		 END IF;
+ 38  
+ 39  	     EXCEPTION
+ 40  		 WHEN OTHERS THEN
+ 41  		     l_failed_count := l_failed_count + 1;
+ 42  
+ 43  		     DBMS_OUTPUT.PUT_LINE(
+ 44  			 'FAIL'
+ 45  			 || ' | test_case_id=' || r.test_case_id
+ 46  			 || ' | precision=' || r.precision
+ 47  			 || ' | error=' || SQLERRM
+ 48  		     );
+ 49  	     END;
+ 50  	 END LOOP;
+ 51  
+ 52  	 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+ 53  	 DBMS_OUTPUT.PUT_LINE('Tests executed: ' || l_total_count);
+ 54  	 DBMS_OUTPUT.PUT_LINE('Successful:     ' || l_success_count);
+ 55  	 DBMS_OUTPUT.PUT_LINE('Failed:	       ' || l_failed_count);
+ 56  
+ 57  	 IF l_failed_count = 0 THEN
+ 58  	     DBMS_OUTPUT.PUT_LINE('RESULT: OK');
+ 59  	 ELSE
+ 60  	     DBMS_OUTPUT.PUT_LINE('RESULT: FAIL');
+ 61  	 END IF;
+ 62  END;
+ 63  /
+
+Procedure created.
+
+SQL> BEGIN
+  2  	 test_calculate_pi;
+  3  END;
+  4  /
+Running calculate_pi tests...
+----------------------------------------
+----------------------------------------
+Tests executed: 35
+Successful:	35
+Failed: 	0
+RESULT: OK
+
+PL/SQL procedure successfully completed.
+
+SQL> SQL> 
+SQL> ========================================
+SQL> Task 3 - Invoice Validation Tests
+SQL> ========================================
+SQL> SQL> -- Task 3
+SQL> -- Intentionally corrupts test data to verify DATA validation rules VLD-01..VLD-06.
+SQL> --
+SQL> -- Negative validation flow:
+SQL> -- 01_create_structures.sql
+SQL> -- 02_seed_data.sql
+SQL> -- 03_create_unpaid_invoices_view.sql
+SQL> -- 04_create_validation_objects.sql
+SQL> -- 05_corrupt_test_data.sql
+SQL> -- 06_run_validation.sql
+SQL> --
+SQL> -- To restore clean data, rerun:
+SQL> -- 01_create_structures.sql
+SQL> -- 02_seed_data.sql
+SQL> 
+SQL> DECLARE
+  2  	 l_payment_vld01   payment.payment_id%TYPE;
+  3  	 l_payment_vld02   payment.payment_id%TYPE;
+  4  	 l_payment_vld03   payment.payment_id%TYPE;
+  5  	 l_payment_vld04   payment.payment_id%TYPE;
+  6  	 l_payment_vld06   payment.payment_id%TYPE;
+  7  
+  8  	 l_invoice_vld05   invoice.invoice_id%TYPE;
+  9  BEGIN
+ 10  
+ 11  	 ---------------------------------------------------------------------------
+ 12  	 -- Select different PAYMENT rows for VLD-01, VLD-02, VLD-03, VLD-04,
+ 13  	 -- and VLD-06.
+ 14  	 ---------------------------------------------------------------------------
+ 15  	 SELECT
+ 16  	     MAX(CASE WHEN rn = 1 THEN payment_id END),
+ 17  	     MAX(CASE WHEN rn = 2 THEN payment_id END),
+ 18  	     MAX(CASE WHEN rn = 3 THEN payment_id END),
+ 19  	     MAX(CASE WHEN rn = 4 THEN payment_id END),
+ 20  	     MAX(CASE WHEN rn = 5 THEN payment_id END)
+ 21  	 INTO
+ 22  	     l_payment_vld01,
+ 23  	     l_payment_vld02,
+ 24  	     l_payment_vld03,
+ 25  	     l_payment_vld04,
+ 26  	     l_payment_vld06
+ 27  	 FROM (
+ 28  	     SELECT
+ 29  		 payment_id,
+ 30  		 ROW_NUMBER() OVER (ORDER BY payment_id) AS rn
+ 31  	     FROM payment
+ 32  	 )
+ 33  	 WHERE rn <= 5;
+ 34  
+ 35  
+ 36  	 ---------------------------------------------------------------------------
+ 37  	 -- Select an invoice without payments for VLD-05.
+ 38  	 -- This avoids creating an additional VLD-06 error.
+ 39  	 ---------------------------------------------------------------------------
+ 40  	 SELECT invoice_id
+ 41  	 INTO l_invoice_vld05
+ 42  	 FROM (
+ 43  	     SELECT
+ 44  		 i.invoice_id
+ 45  	     FROM invoice i
+ 46  	     LEFT JOIN payment p
+ 47  		 ON p.invoice_id = i.invoice_id
+ 48  	     GROUP BY i.invoice_id
+ 49  	     HAVING COUNT(p.payment_id) = 0
+ 50  	     ORDER BY i.invoice_id
+ 51  	 )
+ 52  	 WHERE ROWNUM = 1;
+ 53  
+ 54  
+ 55  	 ---------------------------------------------------------------------------
+ 56  	 -- VLD-01
+ 57  	 -- Payment date must not be before invoice date.
+ 58  	 ---------------------------------------------------------------------------
+ 59  	 UPDATE payment p
+ 60  	 SET p.payment_date = (
+ 61  	     SELECT i.invoice_date - 1
+ 62  	     FROM invoice i
+ 63  	     WHERE i.invoice_id = p.invoice_id
+ 64  	 )
+ 65  	 WHERE p.payment_id = l_payment_vld01;
+ 66  
+ 67  
+ 68  	 ---------------------------------------------------------------------------
+ 69  	 -- VLD-02
+ 70  	 -- Payment date must not be in the future.
+ 71  	 ---------------------------------------------------------------------------
+ 72  	 UPDATE payment
+ 73  	 SET payment_date = TRUNC(SYSDATE) + 1
+ 74  	 WHERE payment_id = l_payment_vld02;
+ 75  
+ 76  
+ 77  	 ---------------------------------------------------------------------------
+ 78  	 -- VLD-03
+ 79  	 -- Payment currency must match invoice currency.
+ 80  	 ---------------------------------------------------------------------------
+ 81  	 UPDATE payment p
+ 82  	 SET p.currency = (
+ 83  	     SELECT
+ 84  		 CASE i.currency
+ 85  		     WHEN 'EUR' THEN 'USD'
+ 86  		     ELSE 'EUR'
+ 87  		 END
+ 88  	     FROM invoice i
+ 89  	     WHERE i.invoice_id = p.invoice_id
+ 90  	 )
+ 91  	 WHERE p.payment_id = l_payment_vld03;
+ 92  
+ 93  
+ 94  	 ---------------------------------------------------------------------------
+ 95  	 -- VLD-04
+ 96  	 -- Payment amount must be positive.
+ 97  	 --
+ 98  	 -- Temporarily disable the constraint so invalid test data can be created.
+ 99  	 ---------------------------------------------------------------------------
+100  	 EXECUTE IMMEDIATE
+101  	     'ALTER TABLE payment DISABLE CONSTRAINT chk_payment_amount';
+102  
+103  	 UPDATE payment
+104  	 SET payment_amount = 0
+105  	 WHERE payment_id = l_payment_vld04;
+106  
+107  
+108  	 ---------------------------------------------------------------------------
+109  	 -- VLD-05
+110  	 -- Invoice amount must not be negative.
+111  	 --
+112  	 -- Temporarily disable the constraint so invalid test data can be created.
+113  	 ---------------------------------------------------------------------------
+114  	 EXECUTE IMMEDIATE
+115  	     'ALTER TABLE invoice DISABLE CONSTRAINT chk_invoice_amount';
+116  
+117  	 UPDATE invoice
+118  	 SET invoice_amount = -1
+119  	 WHERE invoice_id = l_invoice_vld05;
+120  
+121  
+122  	 ---------------------------------------------------------------------------
+123  	 -- VLD-06
+124  	 -- Total payment amount must not exceed invoice amount.
+125  	 ---------------------------------------------------------------------------
+126  	 UPDATE payment p
+127  	 SET p.payment_amount = (
+128  	     SELECT i.invoice_amount + 100
+129  	     FROM invoice i
+130  	     WHERE i.invoice_id = p.invoice_id
+131  	 )
+132  	 WHERE p.payment_id = l_payment_vld06;
+133  
+134  
+135  	 ---------------------------------------------------------------------------
+136  	 -- Commit intentionally corrupted test data.
+137  	 ---------------------------------------------------------------------------
+138  	 COMMIT;
+139  
+140  
+141  	 ---------------------------------------------------------------------------
+142  	 -- Re-enable constraints without validating existing corrupted rows.
+143  	 --
+144  	 -- Existing intentionally invalid rows remain available for validation,
+145  	 -- but future INSERT/UPDATE operations are checked again.
+146  	 ---------------------------------------------------------------------------
+147  	 EXECUTE IMMEDIATE
+148  	     'ALTER TABLE payment ENABLE NOVALIDATE CONSTRAINT chk_payment_amount';
+149  
+150  	 EXECUTE IMMEDIATE
+151  	     'ALTER TABLE invoice ENABLE NOVALIDATE CONSTRAINT chk_invoice_amount';
+152  
+153  END;
+154  /
+
+PL/SQL procedure successfully completed.
+
+SQL> SQL> -- Task 3
+SQL> -- Run all invoice validations and display results.
+SQL> 
+SQL> BEGIN
+  2  	 invoice_validation_pkg.run_all;
+  3  END;
+  4  /
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -------------------------------------------------------------------------------
+SQL> -- Detailed validation results
+SQL> -------------------------------------------------------------------------------
+SQL> 
+SQL> SELECT
+  2  	 validation_code,
+  3  	 validation_type,
+  4  	 validation_name,
+  5  	 validation_time,
+  6  	 status,
+  7  	 error_count,
+  8  	 result_details
+  9  FROM invoice_validation_result
+ 10  ORDER BY validation_code;
+
+VALIDATION_CODE      VALIDATION_TYPE
+-------------------- --------------------
+VALIDATION_NAME
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+VALIDATION_TIME 							    STATUS     ERROR_COUNT RESULT_DETAILS
+--------------------------------------------------------------------------- ---------- ----------- --------------------------------------------------------------------------------
+VLD-01		     DATA
+Payment date must not be before invoice date
+03-SEP-26 07.22.50.741419 PM						    FAIL		 1 PAYMENT_ID=5306, INVOICE_ID=4159, INVOICE_DATE=2026-01-01, PAYMENT_DATE=2025-12-28
+
+VLD-02		     DATA
+Payment date must not be in the future
+03-SEP-26 07.22.50.742323 PM						    FAIL		 1 PAYMENT_ID=5307, INVOICE_ID=4160, PAYMENT_DATE=2026-09-04
+
+
+VLD-03		     DATA
+Payment currency must match invoice currency
+03-SEP-26 07.22.50.743969 PM						    FAIL		 1 PAYMENT_ID=5308, INVOICE_ID=4160, INVOICE_CURRENCY=EUR, PAYMENT_CURRENCY=USD
+
+
+VLD-04		     DATA
+Payment amount must be positive
+03-SEP-26 07.22.50.744735 PM						    FAIL		 1 PAYMENT_ID=5309, INVOICE_ID=4160, PAYMENT_AMOUNT=0
+
+
+VLD-05		     DATA
+Invoice amount must not be negative
+03-SEP-26 07.22.50.745360 PM						    FAIL		 1 INVOICE_ID=4166, INVOICE_AMOUNT=-1
+
+
+VLD-06		     DATA
+Total payment amount must not exceed invoice amount
+03-SEP-26 07.22.50.761907 PM						    FAIL		 1 INVOICE_ID=4161, INVOICE_AMOUNT=9507.09, PAYMENT_SUM=9607.09
+
+
+
+VLD-07		     QUERY
+Invoice without payments must be returned
+03-SEP-26 07.22.50.767928 PM						    FAIL		 1 INVOICE_ID=4166 is missing from UNPAID_INVOICES_V
+
+
+VLD-08		     QUERY
+Partially paid invoice must be returned
+03-SEP-26 07.22.50.774038 PM						    OK			 0 All partially paid invoices are returned
+
+VLD-09		     QUERY
+Fully paid invoice must not be returned
+03-SEP-26 07.22.50.783291 PM						    OK			 0 No fully paid invoices are returned
+
+VLD-10		     QUERY
+Multiple payments must be aggregated correctly
+03-SEP-26 07.22.50.795623 PM						    OK			 0 Multiple-payment invoices are classified correctly
+
+
+
+10 rows selected.
+
+SQL> 
+SQL> 
+SQL> -------------------------------------------------------------------------------
+SQL> -- Validation summary
+SQL> -------------------------------------------------------------------------------
+SQL> 
+SQL> SELECT
+  2  	 COUNT(*) AS validations_executed,
+  3  	 SUM(CASE WHEN status = 'OK' THEN 1 ELSE 0 END) AS cnt_successful,
+  4  	 SUM(CASE WHEN status = 'FAIL' THEN 1 ELSE 0 END) AS cnt_failed,
+  5  	 CASE
+  6  	     WHEN SUM(CASE WHEN status = 'FAIL' THEN 1 ELSE 0 END) = 0
+  7  		 THEN 'OK'
+  8  	     ELSE 'FAIL'
+  9  	 END AS overall_status
+ 10  FROM invoice_validation_result;
+
+VALIDATIONS_EXECUTED CNT_SUCCESSFUL CNT_FAILED OVER
+-------------------- -------------- ---------- ----
+		  10		  3	     7 FAIL
+
+1 row selected.
+
+SQL> 
+SQL> 06_run_validation.sql
+SP2-0734: unknown command beginning "06_run_val..." - rest of line ignored.
+Help: https://docs.oracle.com/error-help/db/sp2-0734/
+SQL> SQL> 
+SQL> ========================================
+SQL> Task 5 App - Payment Tests
+SQL> ========================================
+SQL> SQL> -------------------------------------------------------------------------------
+SQL> -- Test ADD_PAYMENT function
+SQL> -------------------------------------------------------------------------------
+SQL> DECLARE
+  2  	 l_result	       payment_operation_result_t;
+  3  	 l_payment_count_before NUMBER;
+  4  	 l_payment_count_after	NUMBER;
+  5  	 l_test_amount		NUMBER := 10;
+  6  	 l_invoice_id		NUMBER := 4162;
+  7  BEGIN
+  8  	 ---------------------------------------------------------------------------
+  9  	 -- Test 1: Valid payment
+ 10  	 ---------------------------------------------------------------------------
+ 11  
+ 12  	 SELECT COUNT(*)
+ 13  	 INTO l_payment_count_before
+ 14  	 FROM payment
+ 15  	 WHERE invoice_id = l_invoice_id
+ 16  	   AND payment_date = TRUNC(SYSDATE)
+ 17  	   AND payment_amount = l_test_amount;
+ 18  
+ 19  	 l_result := add_payment(
+ 20  	     l_invoice_id,
+ 21  	     TRUNC(SYSDATE),
+ 22  	     l_test_amount
+ 23  	 );
+ 24  
+ 25  	 SELECT COUNT(*)
+ 26  	 INTO l_payment_count_after
+ 27  	 FROM payment
+ 28  	 WHERE invoice_id = l_invoice_id
+ 29  	   AND payment_date = TRUNC(SYSDATE)
+ 30  	   AND payment_amount = l_test_amount;
+ 31  
+ 32  	     DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+ 33  	     DBMS_OUTPUT.PUT_LINE('Test 1 - Valid payment');
+ 34  	     DBMS_OUTPUT.PUT_LINE('Expected status: OK');
+ 35  	     DBMS_OUTPUT.PUT_LINE('Actual status:     ' || l_result.status_code);
+ 36  	     DBMS_OUTPUT.PUT_LINE('Actual error code: ' || NVL(TO_CHAR(l_result.error_code), 'NULL'));
+ 37  	     DBMS_OUTPUT.PUT_LINE('Actual message:    ' || l_result.message);
+ 38  	     DBMS_OUTPUT.PUT_LINE('Expected payment row increase: 1');
+ 39  	     DBMS_OUTPUT.PUT_LINE('Actual payment row increase:   ' || (l_payment_count_after - l_payment_count_before));
+ 40  	 IF l_result.status_code = 'OK'
+ 41  	    AND l_payment_count_after - l_payment_count_before = 1
+ 42  	 THEN
+ 43  	     DBMS_OUTPUT.PUT_LINE('RESULT: PASS');
+ 44  	 ELSE
+ 45  	     DBMS_OUTPUT.PUT_LINE('RESULT: FAIL');
+ 46  	 END IF;
+ 47  
+ 48  
+ 49  	 ---------------------------------------------------------------------------
+ 50  	 -- Test 2: Payment amount exceeds debt
+ 51  	 ---------------------------------------------------------------------------
+ 52  
+ 53  	 l_result := add_payment(
+ 54  	     l_invoice_id,
+ 55  	     TRUNC(SYSDATE),
+ 56  	     999999999
+ 57  	 );
+ 58  
+ 59  	 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+ 60  	 DBMS_OUTPUT.PUT_LINE('Test 2 - Payment amount exceeds debt');
+ 61  	 DBMS_OUTPUT.PUT_LINE('Expected status:     FAIL');
+ 62  	 DBMS_OUTPUT.PUT_LINE('Expected error code: -20039');
+ 63  	 DBMS_OUTPUT.PUT_LINE('Actual status:	    ' || l_result.status_code);
+ 64  	 DBMS_OUTPUT.PUT_LINE('Actual error code:   ' || l_result.error_code);
+ 65  	 DBMS_OUTPUT.PUT_LINE('Actual message:	    ' || l_result.message);
+ 66  
+ 67  	 IF l_result.status_code = 'FAIL'
+ 68  	    AND l_result.error_code = -20039
+ 69  	 THEN
+ 70  	     DBMS_OUTPUT.PUT_LINE('RESULT: PASS');
+ 71  	 ELSE
+ 72  	     DBMS_OUTPUT.PUT_LINE('RESULT: FAIL');
+ 73  	 END IF;
+ 74  
+ 75  
+ 76  	 ---------------------------------------------------------------------------
+ 77  	 -- Test 3: Future payment date
+ 78  	 ---------------------------------------------------------------------------
+ 79  
+ 80  	 l_result := add_payment(
+ 81  	     l_invoice_id,
+ 82  	     TRUNC(SYSDATE) + 1,
+ 83  	     1
+ 84  	 );
+ 85  
+ 86  	 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+ 87  	 DBMS_OUTPUT.PUT_LINE('Test 3 - Future payment date');
+ 88  	 DBMS_OUTPUT.PUT_LINE('Expected status:     FAIL');
+ 89  	 DBMS_OUTPUT.PUT_LINE('Expected error code: -20037');
+ 90  	 DBMS_OUTPUT.PUT_LINE('Actual status:	    ' || l_result.status_code);
+ 91  	 DBMS_OUTPUT.PUT_LINE('Actual error code:   ' || l_result.error_code);
+ 92  	 DBMS_OUTPUT.PUT_LINE('Actual message:	    ' || l_result.message);
+ 93  
+ 94  	 IF l_result.status_code = 'FAIL'
+ 95  	    AND l_result.error_code = -20037
+ 96  	 THEN
+ 97  	     DBMS_OUTPUT.PUT_LINE('RESULT: PASS');
+ 98  	 ELSE
+ 99  	     DBMS_OUTPUT.PUT_LINE('RESULT: FAIL');
+100  	 END IF;
+101  
+102  
+103  	 ---------------------------------------------------------------------------
+104  	 -- Test 4: Payment date earlier than invoice date
+105  	 ---------------------------------------------------------------------------
+106  
+107  	 l_result := add_payment(
+108  	     l_invoice_id,
+109  	     DATE '2025-12-31',
+110  	     1
+111  	 );
+112  
+113  	 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+114  	 DBMS_OUTPUT.PUT_LINE('Test 4 - Payment date before invoice date');
+115  	 DBMS_OUTPUT.PUT_LINE('Expected status:     FAIL');
+116  	 DBMS_OUTPUT.PUT_LINE('Expected error code: -20036');
+117  	 DBMS_OUTPUT.PUT_LINE('Actual status:	    ' || l_result.status_code);
+118  	 DBMS_OUTPUT.PUT_LINE('Actual error code:   ' || l_result.error_code);
+119  	 DBMS_OUTPUT.PUT_LINE('Actual message:	    ' || l_result.message);
+120  
+121  	 IF l_result.status_code = 'FAIL'
+122  	    AND l_result.error_code = -20036
+123  	 THEN
+124  	     DBMS_OUTPUT.PUT_LINE('RESULT: PASS');
+125  	 ELSE
+126  	     DBMS_OUTPUT.PUT_LINE('RESULT: FAIL');
+127  	 END IF;
+128  
+129  
+130  	 ---------------------------------------------------------------------------
+131  	 -- Test 5: Invalid invoice
+132  	 ---------------------------------------------------------------------------
+133  
+134  	 l_result := add_payment(
+135  	     -999999,
+136  	     TRUNC(SYSDATE),
+137  	     1
+138  	 );
+139  
+140  	 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+141  	 DBMS_OUTPUT.PUT_LINE('Test 5 - Invoice does not exist');
+142  	 DBMS_OUTPUT.PUT_LINE('Expected status:     FAIL');
+143  	 DBMS_OUTPUT.PUT_LINE('Expected error code: -20035');
+144  	 DBMS_OUTPUT.PUT_LINE('Actual status:	    ' || l_result.status_code);
+145  	 DBMS_OUTPUT.PUT_LINE('Actual error code:   ' || l_result.error_code);
+146  	 DBMS_OUTPUT.PUT_LINE('Actual message:	    ' || l_result.message);
+147  
+148  	 IF l_result.status_code = 'FAIL'
+149  	    AND l_result.error_code = -20035
+150  	 THEN
+151  	     DBMS_OUTPUT.PUT_LINE('RESULT: PASS');
+152  	 ELSE
+153  	     DBMS_OUTPUT.PUT_LINE('RESULT: FAIL');
+154  	 END IF;
+155  
+156  
+157  	 ---------------------------------------------------------------------------
+158  	 -- Cleanup test payment
+159  	 ---------------------------------------------------------------------------
+160  
+161  	 DELETE FROM payment
+162  	 WHERE invoice_id = l_invoice_id
+163  	   AND payment_date = TRUNC(SYSDATE)
+164  	   AND payment_amount = l_test_amount;
+165  
+166  	 ROLLBACK;
+167  
+168  	     ---------------------------------------------------------------------------
+169  	 -- Test 6: NULL invoice ID
+170  	 ---------------------------------------------------------------------------
+171  
+172  	 l_result := add_payment(
+173  	     NULL,
+174  	     TRUNC(SYSDATE),
+175  	     1
+176  	 );
+177  
+178  	 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+179  	 DBMS_OUTPUT.PUT_LINE('Test 6 - NULL invoice ID');
+180  	 DBMS_OUTPUT.PUT_LINE('Expected status:     FAIL');
+181  	 DBMS_OUTPUT.PUT_LINE('Expected error code: -20031');
+182  	 DBMS_OUTPUT.PUT_LINE('Actual status:	    ' || l_result.status_code);
+183  	 DBMS_OUTPUT.PUT_LINE('Actual error code:   ' || l_result.error_code);
+184  	 DBMS_OUTPUT.PUT_LINE('Actual message:	    ' || l_result.message);
+185  
+186  	 IF l_result.status_code = 'FAIL'
+187  	    AND l_result.error_code = -20031
+188  	 THEN
+189  	     DBMS_OUTPUT.PUT_LINE('RESULT: PASS');
+190  	 ELSE
+191  	     DBMS_OUTPUT.PUT_LINE('RESULT: FAIL');
+192  	 END IF;
+193  
+194  
+195  	 ---------------------------------------------------------------------------
+196  	 -- Test 7: NULL payment date
+197  	 ---------------------------------------------------------------------------
+198  
+199  	 l_result := add_payment(
+200  	     l_invoice_id,
+201  	     NULL,
+202  	     1
+203  	 );
+204  
+205  	 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+206  	 DBMS_OUTPUT.PUT_LINE('Test 7 - NULL payment date');
+207  	 DBMS_OUTPUT.PUT_LINE('Expected status:     FAIL');
+208  	 DBMS_OUTPUT.PUT_LINE('Expected error code: -20032');
+209  	 DBMS_OUTPUT.PUT_LINE('Actual status:	    ' || l_result.status_code);
+210  	 DBMS_OUTPUT.PUT_LINE('Actual error code:   ' || l_result.error_code);
+211  	 DBMS_OUTPUT.PUT_LINE('Actual message:	    ' || l_result.message);
+212  
+213  	 IF l_result.status_code = 'FAIL'
+214  	    AND l_result.error_code = -20032
+215  	 THEN
+216  	     DBMS_OUTPUT.PUT_LINE('RESULT: PASS');
+217  	 ELSE
+218  	     DBMS_OUTPUT.PUT_LINE('RESULT: FAIL');
+219  	 END IF;
+220  
+221  
+222  	 ---------------------------------------------------------------------------
+223  	 -- Test 8: NULL payment amount
+224  	 ---------------------------------------------------------------------------
+225  
+226  	 l_result := add_payment(
+227  	     l_invoice_id,
+228  	     TRUNC(SYSDATE),
+229  	     NULL
+230  	 );
+231  
+232  	 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+233  	 DBMS_OUTPUT.PUT_LINE('Test 8 - NULL payment amount');
+234  	 DBMS_OUTPUT.PUT_LINE('Expected status:     FAIL');
+235  	 DBMS_OUTPUT.PUT_LINE('Expected error code: -20033');
+236  	 DBMS_OUTPUT.PUT_LINE('Actual status:	    ' || l_result.status_code);
+237  	 DBMS_OUTPUT.PUT_LINE('Actual error code:   ' || l_result.error_code);
+238  	 DBMS_OUTPUT.PUT_LINE('Actual message:	    ' || l_result.message);
+239  
+240  	 IF l_result.status_code = 'FAIL'
+241  	    AND l_result.error_code = -20033
+242  	 THEN
+243  	     DBMS_OUTPUT.PUT_LINE('RESULT: PASS');
+244  	 ELSE
+245  	     DBMS_OUTPUT.PUT_LINE('RESULT: FAIL');
+246  	 END IF;
+247  
+248  
+249  	 ---------------------------------------------------------------------------
+250  	 -- Test 9: Payment amount must be greater than zero
+251  	 ---------------------------------------------------------------------------
+252  
+253  	 l_result := add_payment(
+254  	     l_invoice_id,
+255  	     TRUNC(SYSDATE),
+256  	     0
+257  	 );
+258  
+259  	 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+260  	 DBMS_OUTPUT.PUT_LINE('Test 9 - Payment amount = 0');
+261  	 DBMS_OUTPUT.PUT_LINE('Expected status:     FAIL');
+262  	 DBMS_OUTPUT.PUT_LINE('Expected error code: -20034');
+263  	 DBMS_OUTPUT.PUT_LINE('Actual status:	    ' || l_result.status_code);
+264  	 DBMS_OUTPUT.PUT_LINE('Actual error code:   ' || l_result.error_code);
+265  	 DBMS_OUTPUT.PUT_LINE('Actual message:	    ' || l_result.message);
+266  
+267  	 IF l_result.status_code = 'FAIL'
+268  	    AND l_result.error_code = -20034
+269  	 THEN
+270  	     DBMS_OUTPUT.PUT_LINE('RESULT: PASS');
+271  	 ELSE
+272  	     DBMS_OUTPUT.PUT_LINE('RESULT: FAIL');
+273  	 END IF;
+274  
+275  	 ---------------------------------------------------------------------------
+276  	 -- Test 10: Invoice already fully paid
+277  	 ---------------------------------------------------------------------------
+278  
+279  	 DECLARE
+280  	     l_paid_invoice_id invoice.invoice_id%TYPE;
+281  	 BEGIN
+282  	     SELECT invoice_id
+283  	     INTO l_paid_invoice_id
+284  	     FROM (
+285  		 SELECT i.invoice_id
+286  		 FROM invoice i
+287  		 LEFT JOIN (
+288  		     SELECT
+289  			 invoice_id,
+290  			 SUM(payment_amount) AS payment_sum
+291  		     FROM payment
+292  		     GROUP BY invoice_id
+293  		 ) p
+294  		     ON p.invoice_id = i.invoice_id
+295  		 WHERE NVL(p.payment_sum, 0) >= i.invoice_amount
+296  		 ORDER BY i.invoice_id
+297  	     )
+298  	     WHERE ROWNUM = 1;
+299  
+300  	     l_result := add_payment(
+301  		 l_paid_invoice_id,
+302  		 TRUNC(SYSDATE),
+303  		 1
+304  	     );
+305  
+306  	     DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+307  	     DBMS_OUTPUT.PUT_LINE('Test 10 - Invoice already fully paid');
+308  	     DBMS_OUTPUT.PUT_LINE('Invoice ID:		' || l_paid_invoice_id);
+309  	     DBMS_OUTPUT.PUT_LINE('Expected status:	FAIL');
+310  	     DBMS_OUTPUT.PUT_LINE('Expected error code: -20038');
+311  	     DBMS_OUTPUT.PUT_LINE('Actual status:	' || l_result.status_code);
+312  	     DBMS_OUTPUT.PUT_LINE('Actual error code:	' || l_result.error_code);
+313  	     DBMS_OUTPUT.PUT_LINE('Actual message:	' || l_result.message);
+314  
+315  	     IF l_result.status_code = 'FAIL'
+316  		AND l_result.error_code = -20038
+317  	     THEN
+318  		 DBMS_OUTPUT.PUT_LINE('RESULT: PASS');
+319  	     ELSE
+320  		 DBMS_OUTPUT.PUT_LINE('RESULT: FAIL');
+321  	     END IF;
+322  
+323  	 EXCEPTION
+324  	     WHEN NO_DATA_FOUND THEN
+325  		 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+326  		 DBMS_OUTPUT.PUT_LINE('Test 10 - Invoice already fully paid');
+327  		 DBMS_OUTPUT.PUT_LINE('RESULT: FAIL');
+328  		 DBMS_OUTPUT.PUT_LINE('No fully paid invoice exists in the current test data');
+329  	 END;
+330  
+331  	 DBMS_OUTPUT.PUT_LINE('----------------------------------------');
+332  	 DBMS_OUTPUT.PUT_LINE('Test cleanup completed.');
+333  END;
+334  /
+----------------------------------------
+Test 1 - Valid payment
+Expected status: OK
+Actual status:	   FAIL
+Actual error code: -20038
+Actual message:    Invoice is already fully paid
+Expected payment row increase: 1
+Actual payment row increase:   0
+RESULT: FAIL
+----------------------------------------
+Test 2 - Payment amount exceeds debt
+Expected status:     FAIL
+Expected error code: -20039
+Actual status:	     FAIL
+Actual error code:   -20038
+Actual message:      Invoice is already fully paid
+RESULT: FAIL
+----------------------------------------
+Test 3 - Future payment date
+Expected status:     FAIL
+Expected error code: -20037
+Actual status:	     FAIL
+Actual error code:   -20037
+Actual message:      Payment date cannot be in the future
+RESULT: PASS
+----------------------------------------
+Test 4 - Payment date before invoice date
+Expected status:     FAIL
+Expected error code: -20036
+Actual status:	     FAIL
+Actual error code:   -20036
+Actual message:      Payment date cannot be earlier than invoice date
+RESULT: PASS
+----------------------------------------
+Test 5 - Invoice does not exist
+Expected status:     FAIL
+Expected error code: -20035
+Actual status:	     FAIL
+Actual error code:   -20035
+Actual message:      Invoice does not exist
+RESULT: PASS
+----------------------------------------
+Test 6 - NULL invoice ID
+Expected status:     FAIL
+Expected error code: -20031
+Actual status:	     FAIL
+Actual error code:   -20031
+Actual message:      Invoice ID must be provided
+RESULT: PASS
+----------------------------------------
+Test 7 - NULL payment date
+Expected status:     FAIL
+Expected error code: -20032
+Actual status:	     FAIL
+Actual error code:   -20032
+Actual message:      Payment date must be provided
+RESULT: PASS
+----------------------------------------
+Test 8 - NULL payment amount
+Expected status:     FAIL
+Expected error code: -20033
+Actual status:	     FAIL
+Actual error code:   -20033
+Actual message:      Payment amount must be provided
+RESULT: PASS
+----------------------------------------
+Test 9 - Payment amount = 0
+Expected status:     FAIL
+Expected error code: -20034
+Actual status:	     FAIL
+Actual error code:   -20034
+Actual message:      Payment amount must be greater than zero
+RESULT: PASS
+----------------------------------------
+Test 10 - Invoice already fully paid
+Invoice ID:	     4159
+Expected status:     FAIL
+Expected error code: -20038
+Actual status:	     FAIL
+Actual error code:   -20038
+Actual message:      Invoice is already fully paid
+RESULT: PASS
+----------------------------------------
+Test cleanup completed.
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> 
+SQL> SQL> 
+SQL> ========================================
+SQL> ALL DATABASE TESTS FINISHED
+SQL> ========================================
+SQL> SQL> Disconnected from Oracle AI Database 26ai Free Release 23.26.2.0.0 - Develop, Learn, and Run for Free
+Version 23.26.2.0.0

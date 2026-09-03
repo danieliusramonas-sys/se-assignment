@@ -12,5 +12,6 @@ SQL solution for identifying invoices that have not been fully paid, including g
 ### [Task 4 – Oracle Forms Modernization](modernization/)
 Architecture and migration proposal for moving the functionality to a modern web-based solution.
 
-### Task 5 – Full Stack Application
+### [Task 5 – Full Stack Application](application/)
 Java and TypeScript web application for visualizing the results of Tasks 1–3.
+

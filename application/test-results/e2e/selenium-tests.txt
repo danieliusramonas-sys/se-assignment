@@ -1,0 +1,124 @@
+> Task :compileJava
+> Task :processResources
+> Task :classes
+> Task :compileE2eTestJava
+> Task :processE2eTestResources NO-SOURCE
+> Task :e2eTestClasses
+
+> Task :e2eTest
+
+ApplicationE2ETest STANDARD_ERROR
+    Sep 03, 2026 10:55:51 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+    WARNING: Unable to find CDP implementation matching 151
+    Sep 03, 2026 10:55:51 PM org.openqa.selenium.chromium.ChromiumDriver lambda$new$4
+    WARNING: Unable to find version of CDP to use for 151.0.7922.108. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.37.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+
+ApplicationE2ETest > piCalculation_shouldReturnExpectedValue() STANDARD_OUT
+
+    ========================================
+    Task 2 E2E Test - PI Calculation
+    ========================================
+    Input:
+    Precision = 10
+
+    Expected:
+    Precision     = 10
+    Calculated PI = 3.1415926536
+
+    Actual:
+    Precision
+    10
+    Calculated PI
+    3.1415926536
+
+    RESULT: PASS
+    ========================================
+
+
+ApplicationE2ETest > piCalculation_shouldReturnExpectedValue() PASSED
+
+ApplicationE2ETest > invoiceSearch_shouldReturnOnlyUnpaidInvoices() STANDARD_OUT
+
+    ========================================
+    Task 3 E2E Test - Invoice Search
+    ========================================
+    Input:
+    Status filter = UNPAID
+
+    Expected:
+    Invoices returned > 0
+    Every invoice status = UNPAID
+
+    Actual:
+    Invoices returned = 762
+    All statuses UNPAID = true
+
+    RESULT: PASS
+    ========================================
+
+
+ApplicationE2ETest > invoiceSearch_shouldReturnOnlyUnpaidInvoices() PASSED
+
+ApplicationE2ETest > ageClassification_shouldReturnAdult() STANDARD_OUT
+
+    ========================================
+    Task 1 E2E Test - Age Classification
+    ========================================
+    Input:
+    Age = 18
+
+    Expected:
+    Status  = OK
+    Message = You are adult
+
+    Actual:
+    Status
+    OK
+    Message
+    You are adult
+
+    RESULT: PASS
+    ========================================
+
+
+ApplicationE2ETest > ageClassification_shouldReturnAdult() PASSED
+
+ApplicationE2ETest > addPayment_shouldPersistPaymentAndReduceDebt() STANDARD_OUT
+
+    ========================================
+    Task 3 E2E Test - Add Payment
+    ========================================
+    Input:
+    Invoice ID     = 4160
+    Currency       = EUR
+    Current debt   = 1666.85
+    Payment date   = 2026-09-03
+    Payment amount = 0.01
+
+    Expected:
+    Payment result = Payment successfully added
+    Updated debt   = 1666.84
+    Payment visible in payments table = true
+
+    Actual:
+    Payment result = Payment successfully added
+    Updated debt   = 1666.84
+    Payment visible in payments table = true
+
+    RESULT: PASS
+    ========================================
+
+
+ApplicationE2ETest > addPayment_shouldPersistPaymentAndReduceDebt() PASSED
+
+[Incubating] Problems report is available at: file:///home/danielius/projects/se-assignment/application/backend/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 25s
+4 actionable tasks: 4 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.7.1/userguide/configuration_cache_enabling.html

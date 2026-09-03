@@ -1,0 +1,467 @@
+> Task :compileJava
+> Task :processResources
+> Task :classes
+> Task :compileTestJava
+> Task :processTestResources NO-SOURCE
+> Task :testClasses
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+
+> Task :test
+
+AgeIntegrationTest STANDARD_OUT
+    22:11:53.484 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.seassignment.backend.task1.AgeIntegrationTest]: AgeIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    22:11:53.563 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.seassignment.backend.BackendApplication for test class com.seassignment.backend.task1.AgeIntegrationTest
+    22:11:53.606 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.seassignment.backend.task1.AgeIntegrationTest]: AgeIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    22:11:53.609 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.seassignment.backend.BackendApplication for test class com.seassignment.backend.task1.AgeIntegrationTest
+
+      .   ____          _            __ _ _
+     /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+    ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+      '  |____| .__|_| |_|_| |_\__, | / / / /
+     =========|_|==============|___/=/_/_/_/
+
+     :: Spring Boot ::                (v4.0.8)
+
+
+AgeIntegrationTest > Age -1 -> FAIL / -20002 STANDARD_ERROR
+    Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+    WARNING: A Java agent has been loaded dynamically (/home/danielius/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.17.8/f09415827a71be7ed621c7bd02550678f28bc81c/byte-buddy-agent-1.17.8.jar)
+    WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+    WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+    WARNING: Dynamic loading of agents will be disallowed by default in a future release
+
+AgeIntegrationTest > Age -1 -> FAIL / -20002 STANDARD_OUT
+
+    ========================================
+    Task 1 Backend Integration Test
+    ========================================
+    Request:
+    POST /api/task1/age
+    age = -1
+
+    Actual response:
+    {"statusCode":"FAIL","errorCode":-20002,"message":"Age cannot be negative"}
+
+    Expected:
+    statusCode = FAIL
+    errorCode  = -20002
+    message    = Age cannot be negative
+
+    Actual:
+    statusCode = FAIL
+    errorCode  = -20002
+    message    = Age cannot be negative
+
+    Status comparison:     PASS
+    Error code comparison: PASS
+    Message comparison:    PASS
+
+    RESULT: PASS
+    ========================================
+
+
+AgeIntegrationTest > Age -1 -> FAIL / -20002 PASSED
+
+AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) > Age "0" -> "You are infant" STANDARD_OUT
+
+    ========================================
+    Task 1 Backend Integration Test
+    ========================================
+    Request:
+    POST /api/task1/age
+    age = 0
+
+    Actual response:
+    {"statusCode":"OK","errorCode":null,"message":"You are infant"}
+
+    Expected:
+    statusCode = OK
+    errorCode  = null
+    message    = You are infant
+
+    Actual:
+    statusCode = OK
+    errorCode  = null
+    message    = You are infant
+
+    Status comparison:     PASS
+    Error code comparison: PASS
+    Message comparison:    PASS
+
+    RESULT: PASS
+    ========================================
+
+
+AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) > Age "0" -> "You are infant" PASSED
+
+AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) > Age "7" -> "You are schoolchild" STANDARD_OUT
+
+    ========================================
+    Task 1 Backend Integration Test
+    ========================================
+    Request:
+    POST /api/task1/age
+    age = 7
+
+    Actual response:
+    {"statusCode":"OK","errorCode":null,"message":"You are schoolchild"}
+
+    Expected:
+    statusCode = OK
+    errorCode  = null
+    message    = You are schoolchild
+
+    Actual:
+    statusCode = OK
+    errorCode  = null
+    message    = You are schoolchild
+
+    Status comparison:     PASS
+    Error code comparison: PASS
+    Message comparison:    PASS
+
+    RESULT: PASS
+    ========================================
+
+
+AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) > Age "7" -> "You are schoolchild" PASSED
+
+AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) > Age "18" -> "You are adult" STANDARD_OUT
+
+    ========================================
+    Task 1 Backend Integration Test
+    ========================================
+    Request:
+    POST /api/task1/age
+    age = 18
+
+    Actual response:
+    {"statusCode":"OK","errorCode":null,"message":"You are adult"}
+
+    Expected:
+    statusCode = OK
+    errorCode  = null
+    message    = You are adult
+
+    Actual:
+    statusCode = OK
+    errorCode  = null
+    message    = You are adult
+
+    Status comparison:     PASS
+    Error code comparison: PASS
+    Message comparison:    PASS
+
+    RESULT: PASS
+    ========================================
+
+
+AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) > Age "18" -> "You are adult" PASSED
+
+AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) > Age "40" -> "You are in middle-age" STANDARD_OUT
+
+    ========================================
+    Task 1 Backend Integration Test
+    ========================================
+    Request:
+    POST /api/task1/age
+    age = 40
+
+    Actual response:
+    {"statusCode":"OK","errorCode":null,"message":"You are in middle-age"}
+
+    Expected:
+    statusCode = OK
+    errorCode  = null
+    message    = You are in middle-age
+
+    Actual:
+    statusCode = OK
+    errorCode  = null
+    message    = You are in middle-age
+
+    Status comparison:     PASS
+    Error code comparison: PASS
+    Message comparison:    PASS
+
+    RESULT: PASS
+    ========================================
+
+
+AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) > Age "40" -> "You are in middle-age" PASSED
+
+AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) > Age "55" -> "You are aged" STANDARD_OUT
+
+    ========================================
+    Task 1 Backend Integration Test
+    ========================================
+    Request:
+    POST /api/task1/age
+    age = 55
+
+    Actual response:
+    {"statusCode":"OK","errorCode":null,"message":"You are aged"}
+
+    Expected:
+    statusCode = OK
+    errorCode  = null
+    message    = You are aged
+
+    Actual:
+    statusCode = OK
+    errorCode  = null
+    message    = You are aged
+
+    Status comparison:     PASS
+    Error code comparison: PASS
+    Message comparison:    PASS
+
+    RESULT: PASS
+    ========================================
+
+
+AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) > Age "55" -> "You are aged" PASSED
+
+PiIntegrationTest > calculatesPiUsingRealOracleDatabase(int, String) > Precision "1" -> "3.1" STANDARD_OUT
+
+    ========================================
+    Task 2 Backend Integration Test
+    ========================================
+    Request:
+    POST /api/task2/pi
+    precision = 1
+
+    Actual response:
+    {"precision":1,"calculatedPi":3.1}
+
+    Expected:
+    precision    = 1
+    calculatedPi = 3.1
+
+    Actual:
+    precision    = 1
+    calculatedPi = 3.1
+
+    Precision comparison: PASS
+    PI comparison:        PASS
+
+    RESULT: PASS
+    ========================================
+
+
+PiIntegrationTest > calculatesPiUsingRealOracleDatabase(int, String) > Precision "1" -> "3.1" PASSED
+
+PiIntegrationTest > calculatesPiUsingRealOracleDatabase(int, String) > Precision "10" -> "3.1415926536" STANDARD_OUT
+
+    ========================================
+    Task 2 Backend Integration Test
+    ========================================
+    Request:
+    POST /api/task2/pi
+    precision = 10
+
+    Actual response:
+    {"precision":10,"calculatedPi":3.1415926536}
+
+    Expected:
+    precision    = 10
+    calculatedPi = 3.1415926536
+
+    Actual:
+    precision    = 10
+    calculatedPi = 3.1415926536
+
+    Precision comparison: PASS
+    PI comparison:        PASS
+
+    RESULT: PASS
+    ========================================
+
+
+PiIntegrationTest > calculatesPiUsingRealOracleDatabase(int, String) > Precision "10" -> "3.1415926536" PASSED
+
+PiIntegrationTest > calculatesPiUsingRealOracleDatabase(int, String) > Precision "27" -> "3.141592653589793238462643383" STANDARD_OUT
+
+    ========================================
+    Task 2 Backend Integration Test
+    ========================================
+    Request:
+    POST /api/task2/pi
+    precision = 27
+
+    Actual response:
+    {"precision":27,"calculatedPi":3.141592653589793238462643383}
+
+    Expected:
+    precision    = 27
+    calculatedPi = 3.141592653589793238462643383
+
+    Actual:
+    precision    = 27
+    calculatedPi = 3.141592653589793238462643383
+
+    Precision comparison: PASS
+    PI comparison:        PASS
+
+    RESULT: PASS
+    ========================================
+
+
+PiIntegrationTest > calculatesPiUsingRealOracleDatabase(int, String) > Precision "27" -> "3.141592653589793238462643383" PASSED
+
+InvoiceIntegrationTest > Add payment above debt -> FAIL / -20039 STANDARD_OUT
+
+    ========================================
+    Task 3 Backend Integration Test
+    ========================================
+    Request:
+    POST /api/task3/payments
+    invoiceId     = 4166
+    current debt  = 2938.73
+    paymentAmount = 2939.73
+
+    Expected:
+    statusCode = FAIL
+    errorCode  = -20039
+    message    = Payment amount exceeds outstanding debt
+    Payment count remains = 0
+
+    Actual:
+    Response:
+    {"statusCode":"FAIL","errorCode":-20039,"message":"Payment amount exceeds outstanding debt"}
+    Payment count = 0 -> 0
+
+    Status comparison:  PASS
+    Error comparison:   PASS
+    Message comparison: PASS
+    No INSERT comparison: PASS
+
+    RESULT: PASS
+    ========================================
+
+
+InvoiceIntegrationTest > Add payment above debt -> FAIL / -20039 PASSED
+
+InvoiceIntegrationTest > Payments endpoint -> returns payment data STANDARD_OUT
+
+    ========================================
+    Task 3 Backend Integration Test
+    ========================================
+    Request:
+    GET /api/task3/payments
+
+    Expected:
+    Non-empty payment array
+    paymentId present
+    invoiceId present
+    paymentDate present
+    paymentAmount present
+
+    Actual checks:
+    Non-empty response: PASS
+    paymentId:          PASS
+    invoiceId:          PASS
+    paymentDate:        PASS
+    paymentAmount:      PASS
+
+    RESULT: PASS
+    ========================================
+
+
+InvoiceIntegrationTest > Payments endpoint -> returns payment data PASSED
+
+InvoiceIntegrationTest > Add payment -> OK / payment stored STANDARD_OUT
+
+    ========================================
+    Task 3 Backend Integration Test
+    ========================================
+    Request:
+    POST /api/task3/payments
+    invoiceId     = 4166
+    paymentDate   = 2026-09-03
+    paymentAmount = 0.01
+
+    Expected:
+    statusCode = OK
+    errorCode  = null
+    message    = Payment successfully added
+    Payment count = 0 -> 1
+
+    Actual:
+    Response:
+    {"statusCode":"OK","errorCode":null,"message":"Payment successfully added"}
+    Payment count = 0 -> 1
+
+    Status comparison:  PASS
+    Error comparison:   PASS
+    Message comparison: PASS
+    INSERT comparison:  PASS
+
+    RESULT: PASS
+    ========================================
+
+
+InvoiceIntegrationTest > Add payment -> OK / payment stored PASSED
+
+InvoiceIntegrationTest > Status filter UNPAID -> all invoices UNPAID STANDARD_OUT
+
+    ========================================
+    Task 3 Backend Integration Test
+    ========================================
+    Request:
+    GET /api/task3/invoices?status=UNPAID
+
+    Expected:
+    Invoices returned > 0
+    Every status = UNPAID
+
+    Actual:
+    Invoices checked = 762
+    All statuses UNPAID = true
+
+    Count comparison:  PASS
+    Status comparison: PASS
+
+    RESULT: PASS
+    ========================================
+
+
+InvoiceIntegrationTest > Status filter UNPAID -> all invoices UNPAID PASSED
+
+InvoiceIntegrationTest > Invoice ID filter -> returns requested invoice STANDARD_OUT
+
+    ========================================
+    Task 3 Backend Integration Test
+    ========================================
+    Request:
+    GET /api/task3/invoices?invoiceId=4159
+
+    Expected:
+    invoiceId = 4159
+    Exactly one invoice returned
+
+    Actual:
+    invoiceId = 4159
+    Exactly one invoice = true
+
+    Invoice ID comparison: PASS
+    Record count comparison: PASS
+
+    RESULT: PASS
+    ========================================
+
+
+InvoiceIntegrationTest > Invoice ID filter -> returns requested invoice PASSED
+
+[Incubating] Problems report is available at: file:///home/danielius/projects/se-assignment/application/backend/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 4s
+4 actionable tasks: 4 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.7.1/userguide/configuration_cache_enabling.html

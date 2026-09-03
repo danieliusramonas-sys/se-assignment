@@ -1,0 +1,78 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '4.0.8'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.seassignment'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+sourceSets {
+	e2eTest {
+		java.srcDir file('src/e2eTest/java')
+		resources.srcDir file('src/e2eTest/resources')
+
+		compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+		runtimeClasspath += output + compileClasspath
+	}
+}
+
+configurations {
+	e2eTestImplementation.extendsFrom testImplementation
+	e2eTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc17'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-jdbc-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	e2eTestImplementation 'org.seleniumhq.selenium:selenium-java:4.35.0'
+	e2eTestImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+
+	testLogging {
+		events "passed", "skipped", "failed"
+		showStandardStreams = true
+		exceptionFormat "full"
+	}
+}
+
+tasks.register('e2eTest', Test) {
+	description = 'Runs Selenium end-to-end tests.'
+	group = 'verification'
+
+	testClassesDirs = sourceSets.e2eTest.output.classesDirs
+	classpath = sourceSets.e2eTest.runtimeClasspath
+
+	useJUnitPlatform()
+
+	testLogging {
+		events "passed", "skipped", "failed"
+		showStandardStreams = true
+		exceptionFormat "full"
+	}
+
+	shouldRunAfter tasks.named('test')
+}
