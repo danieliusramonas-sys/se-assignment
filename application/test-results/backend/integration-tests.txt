@@ -9,10 +9,10 @@ OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader clas
 > Task :test
 
 AgeIntegrationTest STANDARD_OUT
-    22:11:53.484 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.seassignment.backend.task1.AgeIntegrationTest]: AgeIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-    22:11:53.563 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.seassignment.backend.BackendApplication for test class com.seassignment.backend.task1.AgeIntegrationTest
-    22:11:53.606 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.seassignment.backend.task1.AgeIntegrationTest]: AgeIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-    22:11:53.609 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.seassignment.backend.BackendApplication for test class com.seassignment.backend.task1.AgeIntegrationTest
+    17:13:55.949 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.seassignment.backend.task1.AgeIntegrationTest]: AgeIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    17:13:56.026 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.seassignment.backend.BackendApplication for test class com.seassignment.backend.task1.AgeIntegrationTest
+    17:13:56.073 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.seassignment.backend.task1.AgeIntegrationTest]: AgeIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    17:13:56.075 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.seassignment.backend.BackendApplication for test class com.seassignment.backend.task1.AgeIntegrationTest
 
       .   ____          _            __ _ _
      /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -37,8 +37,7 @@ AgeIntegrationTest > Age -1 -> FAIL / -20002 STANDARD_OUT
     Task 1 Backend Integration Test
     ========================================
     Request:
-    POST /api/task1/age
-    age = -1
+    GET /api/task1/age?age=-1
 
     Actual response:
     {"statusCode":"FAIL","errorCode":-20002,"message":"Age cannot be negative"}
@@ -69,8 +68,7 @@ AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) >
     Task 1 Backend Integration Test
     ========================================
     Request:
-    POST /api/task1/age
-    age = 0
+    GET /api/task1/age?age=0
 
     Actual response:
     {"statusCode":"OK","errorCode":null,"message":"You are infant"}
@@ -101,8 +99,7 @@ AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) >
     Task 1 Backend Integration Test
     ========================================
     Request:
-    POST /api/task1/age
-    age = 7
+    GET /api/task1/age?age=7
 
     Actual response:
     {"statusCode":"OK","errorCode":null,"message":"You are schoolchild"}
@@ -133,8 +130,7 @@ AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) >
     Task 1 Backend Integration Test
     ========================================
     Request:
-    POST /api/task1/age
-    age = 18
+    GET /api/task1/age?age=18
 
     Actual response:
     {"statusCode":"OK","errorCode":null,"message":"You are adult"}
@@ -165,8 +161,7 @@ AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) >
     Task 1 Backend Integration Test
     ========================================
     Request:
-    POST /api/task1/age
-    age = 40
+    GET /api/task1/age?age=40
 
     Actual response:
     {"statusCode":"OK","errorCode":null,"message":"You are in middle-age"}
@@ -197,8 +192,7 @@ AgeIntegrationTest > calculatesAgeCategoryUsingRealOracleDatabase(int, String) >
     Task 1 Backend Integration Test
     ========================================
     Request:
-    POST /api/task1/age
-    age = 55
+    GET /api/task1/age?age=55
 
     Actual response:
     {"statusCode":"OK","errorCode":null,"message":"You are aged"}
@@ -229,8 +223,7 @@ PiIntegrationTest > calculatesPiUsingRealOracleDatabase(int, String) > Precision
     Task 2 Backend Integration Test
     ========================================
     Request:
-    POST /api/task2/pi
-    precision = 1
+    GET /api/task2/pi?precision=1
 
     Actual response:
     {"precision":1,"calculatedPi":3.1}
@@ -258,8 +251,7 @@ PiIntegrationTest > calculatesPiUsingRealOracleDatabase(int, String) > Precision
     Task 2 Backend Integration Test
     ========================================
     Request:
-    POST /api/task2/pi
-    precision = 10
+    GET /api/task2/pi?precision=10
 
     Actual response:
     {"precision":10,"calculatedPi":3.1415926536}
@@ -287,8 +279,7 @@ PiIntegrationTest > calculatesPiUsingRealOracleDatabase(int, String) > Precision
     Task 2 Backend Integration Test
     ========================================
     Request:
-    POST /api/task2/pi
-    precision = 27
+    GET /api/task2/pi?precision=27
 
     Actual response:
     {"precision":27,"calculatedPi":3.141592653589793238462643383}
@@ -317,20 +308,20 @@ InvoiceIntegrationTest > Add payment above debt -> FAIL / -20039 STANDARD_OUT
     ========================================
     Request:
     POST /api/task3/payments
-    invoiceId     = 4166
-    current debt  = 2938.73
-    paymentAmount = 2939.73
+    invoiceId     = 12618
+    current debt  = 506.61
+    paymentAmount = 507.61
 
     Expected:
     statusCode = FAIL
     errorCode  = -20039
     message    = Payment amount exceeds outstanding debt
-    Payment count remains = 0
+    Payment count remains = 4
 
     Actual:
     Response:
     {"statusCode":"FAIL","errorCode":-20039,"message":"Payment amount exceeds outstanding debt"}
-    Payment count = 0 -> 0
+    Payment count = 4 -> 4
 
     Status comparison:  PASS
     Error comparison:   PASS
@@ -378,20 +369,20 @@ InvoiceIntegrationTest > Add payment -> OK / payment stored STANDARD_OUT
     ========================================
     Request:
     POST /api/task3/payments
-    invoiceId     = 4166
-    paymentDate   = 2026-09-03
+    invoiceId     = 12618
+    paymentDate   = 2026-09-04
     paymentAmount = 0.01
 
     Expected:
     statusCode = OK
     errorCode  = null
     message    = Payment successfully added
-    Payment count = 0 -> 1
+    Payment count = 4 -> 5
 
     Actual:
     Response:
     {"statusCode":"OK","errorCode":null,"message":"Payment successfully added"}
-    Payment count = 0 -> 1
+    Payment count = 4 -> 5
 
     Status comparison:  PASS
     Error comparison:   PASS
@@ -417,7 +408,7 @@ InvoiceIntegrationTest > Status filter UNPAID -> all invoices UNPAID STANDARD_OU
     Every status = UNPAID
 
     Actual:
-    Invoices checked = 762
+    Invoices checked = 765
     All statuses UNPAID = true
 
     Count comparison:  PASS
@@ -435,14 +426,14 @@ InvoiceIntegrationTest > Invoice ID filter -> returns requested invoice STANDARD
     Task 3 Backend Integration Test
     ========================================
     Request:
-    GET /api/task3/invoices?invoiceId=4159
+    GET /api/task3/invoices?invoiceId=12585
 
     Expected:
-    invoiceId = 4159
+    invoiceId = 12585
     Exactly one invoice returned
 
     Actual:
-    invoiceId = 4159
+    invoiceId = 12585
     Exactly one invoice = true
 
     Invoice ID comparison: PASS

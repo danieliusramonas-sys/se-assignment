@@ -229,8 +229,8 @@ The Spring Boot backend exposes the following REST endpoints:
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `POST` | `/api/task1/age` | Classifies a person by age using the configured Oracle age categories. |
-| `POST` | `/api/task2/pi` | Calculates PI to the requested decimal precision using the Oracle BBP implementation. |
+| `GET` | `/api/task1/age?age={age}` | Classifies a person by age using the configured Oracle age categories. |
+| `GET` | `/api/task2/pi?precision={precision}` | Calculates PI to the requested decimal precision using the Oracle BBP implementation. |
 | `GET` | `/api/task3/invoices` | Returns invoices with their payment status and outstanding debt. |
 | `GET` | `/api/task3/invoices?invoiceId={id}` | Returns a specific invoice by invoice ID. |
 | `GET` | `/api/task3/invoices?status={status}` | Filters invoices by `PAID` or `UNPAID` status. |

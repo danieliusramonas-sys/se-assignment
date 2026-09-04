@@ -29,16 +29,7 @@ describe('PiView', () => {
     await flushPromises()
 
     expect(fetchMock).toHaveBeenCalledWith(
-      '/api/task2/pi',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          precision: 10,
-        }),
-      },
+      '/api/task2/pi?precision=10',
     )
 
     expect(wrapper.text()).toContain('10')

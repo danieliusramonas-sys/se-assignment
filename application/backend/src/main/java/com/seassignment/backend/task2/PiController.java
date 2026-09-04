@@ -1,10 +1,8 @@
 package com.seassignment.backend.task2;
 
-import jakarta.validation.Valid;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,8 +15,8 @@ public class PiController {
         this.piService = piService;
     }
 
-    @PostMapping("/pi")
-    public PiResult calculatePi(@Valid @RequestBody PiRequest request) {
-        return piService.calculatePi(request.precision());
+    @GetMapping("/pi")
+    public PiResult calculatePi(@RequestParam Integer precision) {
+        return piService.calculatePi(precision);
     }
 }

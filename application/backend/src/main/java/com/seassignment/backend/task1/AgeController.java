@@ -1,8 +1,9 @@
-// AgeController.java
 package com.seassignment.backend.task1;
 
-import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/task1")
@@ -14,8 +15,8 @@ public class AgeController {
         this.ageService = ageService;
     }
 
-    @PostMapping("/age")
-    public AgeResult calculateAge(@Valid @RequestBody AgeRequest request) {
-        return ageService.calculateAge(request.age());
+    @GetMapping("/age")
+    public AgeResult calculateAge(@RequestParam Integer age) {
+        return ageService.calculateAge(age);
     }
 }

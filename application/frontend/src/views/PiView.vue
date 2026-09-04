@@ -24,15 +24,9 @@ async function calculatePi() {
   loading.value = true
 
   try {
-    const response = await fetch('/api/task2/pi', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        precision: precision.value,
-      }),
-    })
+    const response = await fetch(
+      `/api/task2/pi?precision=${encodeURIComponent(precision.value)}`,
+    )
 
     const data = await response.json()
 

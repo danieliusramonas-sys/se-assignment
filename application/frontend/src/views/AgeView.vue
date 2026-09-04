@@ -25,15 +25,9 @@ async function calculateAge() {
   loading.value = true
 
   try {
-    const response = await fetch('/api/task1/age', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        age: age.value,
-      }),
-    })
+    const response = await fetch(
+      `/api/task1/age?age=${encodeURIComponent(age.value)}`,
+    )
 
     const text = await response.text()
 

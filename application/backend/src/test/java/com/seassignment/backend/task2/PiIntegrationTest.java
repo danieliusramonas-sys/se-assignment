@@ -1,7 +1,7 @@
 package com.seassignment.backend.task2;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
@@ -13,7 +13,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -45,16 +44,12 @@ class PiIntegrationTest {
             String expectedPiText
     ) throws Exception {
 
-        String requestBody = """
-                {
-                  "precision": %d
-                }
-                """.formatted(expectedPrecision);
-
         MvcResult result = mockMvc.perform(
-                        post("/api/task2/pi")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(requestBody)
+                        get("/api/task2/pi")
+                                .param(
+                                        "precision",
+                                        String.valueOf(expectedPrecision)
+                                )
                 )
                 .andExpect(status().isOk())
                 .andReturn();
@@ -150,8 +145,9 @@ class PiIntegrationTest {
         System.out.println("========================================");
 
         System.out.println("Request:");
-        System.out.println("POST /api/task2/pi");
-        System.out.println("precision = " + expectedPrecision);
+        System.out.println(
+                "GET /api/task2/pi?precision=" + expectedPrecision
+        );
 
         System.out.println();
         System.out.println("Actual response:");

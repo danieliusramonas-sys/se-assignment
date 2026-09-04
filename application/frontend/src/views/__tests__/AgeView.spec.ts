@@ -84,16 +84,7 @@ describe('AgeView', () => {
       await flushPromises()
 
       expect(fetchMock).toHaveBeenCalledWith(
-        '/api/task1/age',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            age,
-          }),
-        },
+        `/api/task1/age?age=${age}`,
       )
 
       expect(wrapper.text()).toContain(statusCode)
@@ -128,47 +119,39 @@ describe('AgeView', () => {
 
     expect(fetchMock).not.toHaveBeenCalled()
   })
-it('shows backend error when API request fails', async () => {
-  const fetchMock = vi.fn().mockResolvedValue({
-    ok: false,
-    text: async () =>
-      JSON.stringify({
-        message: 'Internal server error',
-      }),
-  })
 
-  vi.stubGlobal('fetch', fetchMock)
+  it('shows backend error when API request fails', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: false,
+      text: async () =>
+        JSON.stringify({
+          message: 'Internal server error',
+        }),
+    })
 
-  const wrapper = mount(AgeView, {
-    global: {
-      stubs: {
-        RouterLink: true,
+    vi.stubGlobal('fetch', fetchMock)
+
+    const wrapper = mount(AgeView, {
+      global: {
+        stubs: {
+          RouterLink: true,
+        },
       },
-    },
+    })
+
+    await wrapper.find('#age').setValue('25')
+    await wrapper.find('form').trigger('submit')
+
+    await flushPromises()
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/api/task1/age?age=25',
+    )
+
+    expect(wrapper.text()).toContain(
+      'Internal server error',
+    )
+
+    expect(wrapper.find('.result').exists()).toBe(false)
   })
-
-  await wrapper.find('#age').setValue('25')
-  await wrapper.find('form').trigger('submit')
-
-  await flushPromises()
-
-  expect(fetchMock).toHaveBeenCalledWith(
-    '/api/task1/age',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        age: 25,
-      }),
-    },
-  )
-
-  expect(wrapper.text()).toContain(
-    'Internal server error',
-  )
-
-  expect(wrapper.find('.result').exists()).toBe(false)
-})
 })

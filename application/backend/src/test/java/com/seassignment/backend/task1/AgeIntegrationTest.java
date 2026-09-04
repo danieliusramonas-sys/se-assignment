@@ -1,7 +1,7 @@
 package com.seassignment.backend.task1;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.regex.Matcher;
@@ -14,7 +14,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -78,16 +77,9 @@ class AgeIntegrationTest {
             String expectedMessage
     ) throws Exception {
 
-        String requestBody = """
-                {
-                  "age": %d
-                }
-                """.formatted(age);
-
         MvcResult result = mockMvc.perform(
-                        post("/api/task1/age")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(requestBody)
+                        get("/api/task1/age")
+                                .param("age", String.valueOf(age))
                 )
                 .andExpect(status().isOk())
                 .andReturn();
@@ -193,8 +185,7 @@ class AgeIntegrationTest {
         System.out.println("========================================");
 
         System.out.println("Request:");
-        System.out.println("POST /api/task1/age");
-        System.out.println("age = " + age);
+        System.out.println("GET /api/task1/age?age=" + age);
 
         System.out.println();
         System.out.println("Actual response:");
@@ -213,9 +204,9 @@ class AgeIntegrationTest {
         System.out.println("message    = " + actualMessage);
 
         System.out.println();
-        System.out.println("Status comparison:     "  + (statusMatches ? "PASS" : "FAIL"));
-        System.out.println("Error code comparison: "  + (errorCodeMatches ? "PASS" : "FAIL"));
-        System.out.println("Message comparison:    "  + (messageMatches ? "PASS" : "FAIL"));
+        System.out.println("Status comparison:     " + (statusMatches ? "PASS" : "FAIL"));
+        System.out.println("Error code comparison: " + (errorCodeMatches ? "PASS" : "FAIL"));
+        System.out.println("Message comparison:    " + (messageMatches ? "PASS" : "FAIL"));
         System.out.println();
         System.out.println("RESULT: " + (testPassed ? "PASS" : "FAIL"));
 
