@@ -7,7 +7,14 @@
 | Frontend | Component / Unit | Vitest + Vue Test Utils + Fetch Mocking | 21 passed | [component-tests.txt](frontend/component-tests.txt) |
 | Backend | Integration | JUnit + Spring Boot + JDBC + Oracle | 14 passed | [integration-tests.txt](backend/integration-tests.txt) |
 | Database | SQL / PL/SQL | Oracle SQL / PL/SQL | 155 passed | [all-database-tests.txt](database/all-database-tests.txt) |
-| End-to-End | Browser E2E | Selenium WebDriver | 4 passed | [selenium-tests.txt](e2e/selenium-tests.txt) |
+| End-to-End | Browser E2E | Selenium WebDriver | 4 passed | [selenium-tests.txt](e2e/selenium-tests.txt) · [e2e-demo.mp4](e2e/e2e-demo.mp4) |
+
+
+## E2E Video Demo
+
+A recorded Selenium WebDriver demonstration is available in [e2e-demo.mp4](e2e/e2e-demo.mp4).
+
+The recording shows the automated browser tests exercising the running application through the complete Browser → Vue → Java → Oracle stack, including age classification, PI calculation, invoice filtering and payment processing.
 
 ## Test Scenarios
 
