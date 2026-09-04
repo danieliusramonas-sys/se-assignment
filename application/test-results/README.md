@@ -12,8 +12,7 @@
 
 ## E2E Video Demo
 
-A recorded Selenium WebDriver demonstration is available in [e2e-demo.mp4](e2e/e2e-demo.mp4).
-
+▶ [Watch the Selenium E2E demo](e2e/e2e-demo.mp4)
 The recording shows the automated browser tests exercising the running application through the complete Browser → Vue → Java → Oracle stack, including age classification, PI calculation, invoice filtering and payment processing.
 
 ## Test Scenarios
